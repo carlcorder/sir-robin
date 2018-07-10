@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+      <title>
+        Sir Robin
+      </title>
+      <meta property="og:title" content="Sir Robin">
+    <meta charset="utf-8">
+    <meta property="og:type" content="article">
+
+      <meta property="og:description" content="♞ The first elementary knightship found in Conway&#39;s Game of Life.">
+      <meta property="description" content="♞ The first elementary knightship found in Conway&#39;s Game of Life.">
+
+    <link rel="stylesheet" href="static/__idyll_styles.css">
+  </head>
+  <body>
+    <div id="idyll-mount"><div data-reactroot=""><div class="idyll-root"><div style="max-width:600px;margin:0 0 0 50px" class=" idyll-text-container"><div class="article-header"><h1 class="hed">Sir Robin</h1><h2 class="dek">♞ The first elementary knightship found in Conway&#x27;s Game of Life.</h2><div class="byline">By: <a href="https://github.com/carlcorder/SirRobin">Carl Corder</a></div></div><img src="static/images/sir-robin.png" style="width:600px;display:block;margin:20px auto" idyll="[object Object]"/><p>Conway’s Game of Life is a cellular automaton devised by mathematician John 
+Conway in 1970. The Game of Life consists of a two-dimensional grid of cells, each 
+of which is in one of two possible states: dead or alive. Every cell interacts with its 
+eight neighbors and at each step in time, the following rules apply:</p><ol><li>Any live cell with fewer than two live neighbors dies, as if by under population.</li><li>Any live cell with two or three live neighbors lives on to the next generation.</li><li>Any live cell with more than three live neighbors dies, as if by overpopulation.</li><li>Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.</li></ol><p>
+From these four <em>simple</em> rules, many <a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life#Examples_of_patterns">interesting patterns</a> can evolve. For example, the <strong>glider</strong> moves across the grid at a diagonal, much like the ♝ Bishop on a chess 
+board:</p><img src="static/images/glider.gif" style="width:75px;display:block;margin:30px auto" idyll="[object Object]"/><p>The glider is a simple pattern that belongs to a more general class of patterns known 
+as spaceships. A <em>spaceship</em> is any pattern that reappears after a certain number of 
+generations in the same orientation but in a different position.</p><p>A <em>knightship</em> is a spaceship that moves two squares left for every one square it moves up, 
+similar to the ♞ Knight on a chess board. It may surprise you to learn that the first true
+knightship was only <a href="http://www.conwaylife.com/wiki/Sir_Robin">recently discovered</a>, nearly 50 years after the 
+game’s creation!</p><img src="https://media.giphy.com/media/k82pFQvI75SR7iT7hA/giphy.gif" alt="brave-sir-robin"/><p><strong>Sir Robin</strong> was found by <a href="http://www.conwaylife.com/wiki/Adam_P._Goucher">Adam Goucher</a> on March 6th, 2018 using a 
+searching program that extends partials. A partial is simply an intermediate object that might be 
+used as part of a spaceship. Of course, partials themselves are not spaceships. They 
+lack the key feature of being periodic. But, some come very close. Such as the <a href="http://www.conwaylife.com/wiki/Almost_knightship">Almost Knightship</a> 
+which was found back in 2004.</p><img src="static/images/almost-knightship.png" style="width:300px;display:block;margin:30px auto" idyll="[object Object]"/><p>Generation 0 (<code>left</code>) and generation 6 (<code>right</code>) show that the pattern is different by 
+only two cells at the top right. So close!</p><h2>Creating Sir Robin using 👑 regl</h2><p><a href="http://regl.party/">Regl</a> is a functional abstraction for wegbl with a data-driven style inspired by React.</p><p>Starting with the <a href="https://github.com/regl-project/regl/blob/gh-pages/example/life.js">life.js</a> example:</p><img src="https://regl-project.github.io/regl/www/gallery/img/life.png" style="width:600px;display:block;margin:30px auto" idyll="[object Object]"/><p>I created several helper functions to parse <a href="http://www.conwaylife.com/wiki/RLE">RLE</a> strings into <code>INITIAL_CONDITIONS</code> for 
+regl’s framebuffer data. Here’s the run-length encoding of <a href="http://www.conwaylife.com/patterns/sirrobin.rle">Sir Robin</a>:</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">const</span> SIR_ROBIN = 
+<span style="color:#d14">`4b2o$4bo2bo$4bo3bo$6b3o$2b2o6b4o$2bob2o4b4o$bo4bo6b3o$2b4o4b2o3bo$o9b2o$bo3bo$
+ 6b3o2b2o2bo$2b2o7bo4bo$13bob2o$10b2o6bo$11b2ob3obo$10b2o3bo2bo$10bobo2b2o$
+ 10bo2bobobo$10b3o6bo$11bobobo3bo$14b2obobo$11bo6b3o2$$11bo9bo$11bo3bo6bo$
+ 12bo5b5o$12b3o$16b2o$13b3o2bo$11bob3obo$10bo3bo2bo$11bo4b2ob3o$13b4obo4b2o$
+ 13bob4o4b2o$19bo$20bo2b2o$20b2o$21b5o$25b2o$19b3o6bo$20bobo3bobo$19bo3bo3bo$
+ 19bo3b2o$18bo6bob3o$19b2o3bo3b2o$20b4o2bo2bo$22b2o3bo$21bo$21b2obo$20bo$19b5o$
+ 19bo4bo$18b3ob3o$18bob5o$18bo$20bo$16bo4b4o$20b4ob2o$17b3o4bo$24bobo$28bo$
+ 24bo2b2o$25b3o$22b2o$21b3o5bo$24b2o2bobo$21bo2b3obobo$22b2obo2bo$24bobo2b2o$
+ 26b2o$22b3o4bo$22b3o4bo$23b2o3b3o$24b2ob2o$25b2o$25bo2$$24b2o$26bo!`</span></code></pre><p>
+and the following functions convert this string into something useable by regl’s framebuffer</p><pre style="display:block;overflow-x:auto;padding:0.5em;color:#333;background:#f8f8f8"><code><span style="color:#333;font-weight:bold">let</span> decode = <span>(<span>rle</span>) =&gt;</span> rle.replace(<span style="color:#009926">/[\n\s]/g</span>,<span style="color:#d14">&#x27;&#x27;</span>)
+            .replace(<span style="color:#009926">/(\d+)(\w)/g</span>, (m,n,c) =&gt; <span style="color:#333;font-weight:bold">new</span> <span style="color:#0086b3">Array</span>(<span style="color:#0086b3">parseInt</span>(n)+<span style="color:#008080">1</span>).join(c))
+
+<span style="color:#333;font-weight:bold">let</span> decoder = <span>(<span>rle</span>) =&gt;</span> {
+    <span style="color:#333;font-weight:bold">let</span> rld = [];
+    rle.replace(<span style="color:#d14">&#x27;!&#x27;</span>,<span style="color:#d14">&#x27;&#x27;</span>).split(<span style="color:#d14">&#x27;$&#x27;</span>).forEach(<span><span>s</span> =&gt;</span> rld.push(decode(s)))
+    <span style="color:#333;font-weight:bold">return</span> rld
+}
+
+<span style="color:#998;font-style:italic">// reg, green, blue, alpha</span>
+<span style="color:#333;font-weight:bold">let</span> rgbAlpha = <span>(<span>rld</span>) =&gt;</span> {<span style="color:#998;font-style:italic">// rld: run-length decoded</span>
+<span style="color:#333;font-weight:bold">return</span> rld.map(<span><span>s</span> =&gt;</span> s.split(<span style="color:#d14">&#x27;&#x27;</span>).map(<span><span>c</span> =&gt;</span> ({<span style="color:#d14">&#x27;b&#x27;</span>: <span style="color:#008080">0</span>, <span style="color:#d14">&#x27;o&#x27;</span>: <span style="color:#008080">255</span>}[c])).map(<span><span>x</span> =&gt;</span> [x,x,x,x]))
+    .map(<span><span>a</span> =&gt;</span> [].concat.apply([], a))
+}
+
+<span style="color:#333;font-weight:bold">let</span> initialize = <span>(<span>rle, p = START_POSITION</span>) =&gt;</span> {<span style="color:#998;font-style:italic">// p: starting position</span>
+    <span style="color:#333;font-weight:bold">let</span> rld = decoder(rle)
+    <span style="color:#333;font-weight:bold">let</span> rgba = rgbAlpha(rld)
+    <span style="color:#333;font-weight:bold">let</span> initialConditions = (<span style="color:#0086b3">Array</span>(RADIUS * RADIUS * <span style="color:#008080">4</span>)).fill(<span style="color:#008080">0</span>)
+    <span style="color:#333;font-weight:bold">for</span>(<span style="color:#333;font-weight:bold">let</span> i = <span style="color:#008080">0</span>; i &lt; rgba.length; i++) {
+        <span style="color:#333;font-weight:bold">for</span>(<span style="color:#333;font-weight:bold">let</span> j = <span style="color:#008080">0</span>; j &lt; rgba[i].length; j++) {
+            initialConditions[p - i*<span style="color:#008080">4</span>*RADIUS + j] = rgba[i][j]
+        }
+    }
+    <span style="color:#333;font-weight:bold">return</span> initialConditions
+}
+
+<span style="color:#333;font-weight:bold">const</span> INITIAL_CONDITIONS = initialize(SIR_ROBIN)</code></pre><h2>Ride forth from Camelot<!-- -->!</h2><div class=" regl"></div><code>♞ Sir Robin in regl</code></div></div></div></div>
+    <script src="static/__idyll_index.js"></script>
+  </body>
+</html>
