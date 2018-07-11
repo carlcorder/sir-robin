@@ -12,7 +12,7 @@ class SirRobinComponent extends ReglComponent {
     const regl = r(node);
     // your regl code here
     const RADIUS = 256
-    const START_POSITION = 4*RADIUS*(1/2)*RADIUS + 4*(1/2)*RADIUS
+    const START_POSITION = 2 * RADIUS * (RADIUS + 1)
 
     const SIR_ROBIN = `4b2o$4bo2bo$4bo3bo$6b3o$2b2o6b4o$2bob2o4b4o$bo4bo6b3o$2b4o4b2o3bo$o9b2o$bo3bo$
                     6b3o2b2o2bo$2b2o7bo4bo$13bob2o$10b2o6bo$11b2ob3obo$10b2o3bo2bo$10bobo2b2o$
@@ -42,23 +42,23 @@ class SirRobinComponent extends ReglComponent {
     let initialize = (rle, p = START_POSITION) => {// p: starting position
         let rld = decoder(rle)
         let rgba = rgbAlpha(rld)
-        let initialConditions = (Array(RADIUS * RADIUS * 4)).fill(0)
+        let initialConditions = (Array(4 * RADIUS * RADIUS)).fill(0)
         for(let i = 0; i < rgba.length; i++) {
             for(let j = 0; j < rgba[i].length; j++) {
-                initialConditions[p - i*4*RADIUS + j] = rgba[i][j]
+                initialConditions[p - i * 4 * RADIUS + j] = rgba[i][j]
             }
         }
         return initialConditions
     }
 
-    const INITIAL_CONDITIONS = initialize(SIR_ROBIN, START_POSITION)
+    const INITIAL_CONDITIONS = initialize(SIR_ROBIN)
 
     const state = (Array(2)).fill().map(() =>
     regl.framebuffer({
         color: regl.texture({
-        radius: RADIUS,
-        data: INITIAL_CONDITIONS,
-        wrap: 'repeat'
+            radius: RADIUS,
+            data: INITIAL_CONDITIONS,
+            wrap: 'repeat'
         }),
         depthStencil: false
     }))
@@ -70,18 +70,19 @@ class SirRobinComponent extends ReglComponent {
         varying vec2 uv;
         void main() {
             float n = 0.0;
-            for(int dx=-1; dx<=1; ++dx)
-            for(int dy=-1; dy<=1; ++dy) {
-            n += texture2D(prevState, uv+vec2(dx,dy)/float(${RADIUS})).r;
+            for(int dx = -1; dx <= 1; ++dx) {
+                for(int dy = -1; dy <= 1; ++dy) {
+                    n += texture2D(prevState, uv+vec2(dx,dy)/float(${RADIUS})).r;
+                }
             }
             float s = texture2D(prevState, uv).r;
-            if(n > 3.0+s || n < 3.0) {
-            gl_FragColor = vec4(0,0,0,1);
+            if(n > 3.0 + s || n < 3.0) {
+                gl_FragColor = vec4(0,0,0,1);
             } else {
-            gl_FragColor = vec4(1,1,1,1);
+                gl_FragColor = vec4(1,1,1,1);
             }
         }`,
-        framebuffer: ({tick}) => state[(tick + 1) % 2]
+        framebuffer: ({tick}) => state[(this.props.tick + 1) % 2]
     })
 
     const setupQuad = regl({
@@ -90,8 +91,8 @@ class SirRobinComponent extends ReglComponent {
         uniform sampler2D prevState;
         varying vec2 uv;
         void main() {
-            float state = texture2D(prevState, uv).r;
-            gl_FragColor = vec4(vec3(state), 1);
+            float state = texture2D(prevState,uv).r;
+            gl_FragColor = vec4(vec3(state),1);
         }`,
         vert: `
         precision mediump float;
@@ -99,14 +100,10 @@ class SirRobinComponent extends ReglComponent {
         varying vec2 uv;
         void main() {
             uv = 0.5 * (position + 1.0);
-            gl_Position = vec4(position, 0, 1);
+            gl_Position = vec4(position,0,1);
         }`,
-        attributes: {
-            position: [ -4, -4, 4, -4, 0, 4 ]
-        },
-        uniforms: {
-            prevState: ({tick}) => state[tick % 2]
-        },
+        attributes: { position: [-4,-4,4,-4,0,4] },
+        uniforms: { prevState: ({tick}) => state[(this.props.tick) % 2] },
         depth: { enable: false },
         count: 3
     })
@@ -117,8 +114,12 @@ class SirRobinComponent extends ReglComponent {
             updateLife()
         })
     })
+
   }
 }
+
+SirRobinComponent.defaultProps = {
+    tick: 0
+}
     
- 
 module.exports = SirRobinComponent;

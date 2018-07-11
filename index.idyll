@@ -61,10 +61,7 @@ only two cells at the top right. So close!
 
 Starting with the [life.js](https://github.com/regl-project/regl/blob/gh-pages/example/life.js) example:
 
-[img
-  src:'https://regl-project.github.io/regl/www/gallery/img/life.png'
-  style:`{ width: 600, display: 'block', margin: '30px auto' }`
-/]
+[Life /]
 
 I created several helper functions to parse [RLE](http://www.conwaylife.com/wiki/RLE) strings into `INITIAL_CONDITIONS` for 
 regl's framebuffer data. Here's the run-length encoding of [Sir Robin](http://www.conwaylife.com/patterns/sirrobin.rle):
@@ -76,6 +73,12 @@ and the following functions convert this string into something useable by regl's
 [gist gist:"e0fee149300321b60d2900776279862f" file:"regl-life-initialize.js"/]
 
 ## Ride forth from Camelot!
-
-[SirRobinComponent /]
+[div style:`{ margin: '30px 10px 10px 200px' }`]
 `♞ Sir Robin in regl`
+[/div]
+
+[SirRobinComponent tick:tick /]
+
+[div style:`{ margin: '30px 10px 10px 200px' }`]
+[Range min:`0` max:`100` value:tick /]
+[/div]
