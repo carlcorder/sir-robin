@@ -1,8 +1,8 @@
-[meta title:"Sir Robin" description:"♞ The first elementary knightship found in Conway's Game of Life." /]
+[meta title:"♞ Sir Robin" description:"♞ The first elementary knightship found in Conway's Game of Life." /]
 
 [Header
-  title:"Sir Robin"
-  subtitle:"♞ The first elementary knightship found in Conway's Game of Life."
+  title:"♞ Sir Robin"
+  subtitle:"The first elementary knightship found in Conway's Game of Life."
   author:"Carl Corder"
   authorLink:"https://github.com/carlcorder/SirRobin" /]
 
@@ -39,7 +39,7 @@ similar to the ♞ Knight on a chess board. It may surprise you to learn that th
 knightship was only [recently discovered](http://www.conwaylife.com/wiki/Sir_Robin), nearly 50 years after the 
 game's creation!
 
-![brave-sir-robin](https://media.giphy.com/media/k82pFQvI75SR7iT7hA/giphy.gif)
+![brave-sir-robin](https://media.giphy.com/media/5BWuQoI6L8ES73BIG0/giphy.gif)
 
 **Sir Robin** was found by [Adam Goucher](http://www.conwaylife.com/wiki/Adam_P._Goucher) on March 6th, 2018 using a 
 searching program that extends partials. A partial is simply an intermediate object that might be 
@@ -77,8 +77,4 @@ and the following functions convert this string into something useable by regl's
 `♞ Sir Robin in regl`
 [/div]
 
-[SirRobinComponent tick:tick /]
-
-[div style:`{ margin: '30px 10px 10px 200px' }`]
-[Range min:`0` max:`100` value:tick /]
-[/div]
+[SirRobinComponent /]

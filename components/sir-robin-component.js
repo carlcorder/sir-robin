@@ -82,7 +82,7 @@ class SirRobinComponent extends ReglComponent {
                 gl_FragColor = vec4(1,1,1,1);
             }
         }`,
-        framebuffer: ({tick}) => state[(this.props.tick + 1) % 2]
+        framebuffer: ({tick}) => state[(tick + 1) % 2]
     })
 
     const setupQuad = regl({
@@ -103,7 +103,7 @@ class SirRobinComponent extends ReglComponent {
             gl_Position = vec4(position,0,1);
         }`,
         attributes: { position: [-4,-4,4,-4,0,4] },
-        uniforms: { prevState: ({tick}) => state[(this.props.tick) % 2] },
+        uniforms: { prevState: ({tick}) => state[(tick) % 2] },
         depth: { enable: false },
         count: 3
     })
