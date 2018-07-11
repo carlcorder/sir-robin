@@ -11,7 +11,7 @@ class SirRobinComponent extends ReglComponent {
     // then
     const regl = r(node);
     // your regl code here
-    const RADIUS = 512
+    const RADIUS = 256
     const START_POSITION = 4*RADIUS*(1/2)*RADIUS + 4*(1/2)*RADIUS
 
     const SIR_ROBIN = `4b2o$4bo2bo$4bo3bo$6b3o$2b2o6b4o$2bob2o4b4o$bo4bo6b3o$2b4o4b2o3bo$o9b2o$bo3bo$
